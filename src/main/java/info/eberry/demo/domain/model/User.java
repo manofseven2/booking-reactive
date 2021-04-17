@@ -8,7 +8,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table
-@ToString(includeFieldNames = true, exclude = {"reservations", "initialCreditLimit"})
+@ToString
 @EqualsAndHashCode
 public class User {
     @Id

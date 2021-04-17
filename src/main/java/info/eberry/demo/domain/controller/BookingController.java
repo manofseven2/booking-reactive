@@ -2,8 +2,8 @@ package info.eberry.demo.domain.controller;
 
 import info.eberry.demo.domain.model.Reservation;
 import info.eberry.demo.domain.model.User;
+import info.eberry.demo.domain.model.dto.FailedTransactionDto;
 import info.eberry.demo.domain.service.BookingService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +29,13 @@ public class BookingController {
         return bookingService.getUserWithEmail(email);
     }
 
-    @GetMapping(value = "failed", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "failed/values", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<Reservation> getAllFailedReservations(){
         return bookingService.getAllFailedBookings();
+    }
+
+    @GetMapping(value = "failed/dtos", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Flux<FailedTransactionDto> getAllFailedBookingsDtos(){
+        return bookingService.getAllFailedBookingsDtos();
     }
 }

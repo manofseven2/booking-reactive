@@ -8,13 +8,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @Table
-@ToString(includeFieldNames = true)
+@ToString
 @EqualsAndHashCode
 public class Reservation {
     @Id

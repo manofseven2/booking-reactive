@@ -1,6 +1,7 @@
 package info.eberry.demo.domain.repository;
 
 import info.eberry.demo.domain.model.Reservation;
+import info.eberry.demo.domain.model.dto.FailedTransactionDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,15 @@ public class ReservationRepositoryTest {
     @Test
     public void getAllFailedReservations(){
         Flux<Reservation> allFailedReservations = reservationRepository.findAllBySuccessful(false);
+
+        StepVerifier.create(allFailedReservations.log("Receiving values !!!"))
+                .expectNextCount(2)
+                .verifyComplete();
+
+    }
+    @Test
+    public void getAllFailedReservationsDtos(){
+        Flux<FailedTransactionDto> allFailedReservations = reservationRepository.findAllFailedReservations();
 
         StepVerifier.create(allFailedReservations.log("Receiving values !!!"))
                 .expectNextCount(2)
