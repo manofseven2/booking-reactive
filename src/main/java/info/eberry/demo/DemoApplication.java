@@ -1,4 +1,4 @@
-package info.ebbery.demo;
+package info.eberry.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

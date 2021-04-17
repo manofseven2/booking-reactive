@@ -1,7 +1,7 @@
-package info.ebbery.demo.domain.service;
+package info.eberry.demo.domain.service;
 
-import info.ebbery.demo.domain.model.Reservation;
-import info.ebbery.demo.domain.model.User;
+import info.eberry.demo.domain.model.Reservation;
+import info.eberry.demo.domain.model.User;
 
 import java.util.List;
 

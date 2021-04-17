@@ -1,0 +1,35 @@
+
+DROP TABLE  IF EXISTS RESERVATION;
+DROP TABLE  IF EXISTS INITIAL_CREDIT_LIMIT;
+DROP TABLE  IF EXISTS USER;
+create table USER
+(
+	ID BIGINT  auto_increment
+		primary key,
+	EMAIL VARCHAR(150)
+		unique,
+	FAMILY VARCHAR(150),
+	NAME VARCHAR(100)
+);
+create table INITIAL_CREDIT_LIMIT
+(
+	ID BIGINT  auto_increment
+		primary key,
+	AMOUNT BIGINT,
+	USER_ID BIGINT,
+	constraint FKSHLOQSWFF6KLQ66IP6SDQACRV
+		foreign key (USER_ID) references USER
+);
+create table RESERVATION
+(
+	ID BIGINT auto_increment
+		primary key,
+	BOOKING_DATE TIMESTAMP,
+	COST BIGINT,
+	SUCCESSFUL BOOLEAN,
+	TRANSACTION_NUMBER VARCHAR(100),
+	USER_ID BIGINT,
+	constraint FKM4OIMK0L1757O9PWAVORJ6LJG
+		foreign key (USER_ID) references USER
+);
+

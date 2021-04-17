@@ -1,4 +1,4 @@
-package info.ebbery.demo;
+package info.eberry.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
