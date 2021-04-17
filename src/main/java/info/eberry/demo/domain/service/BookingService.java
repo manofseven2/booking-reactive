@@ -2,11 +2,13 @@ package info.eberry.demo.domain.service;
 
 import info.eberry.demo.domain.model.Reservation;
 import info.eberry.demo.domain.model.User;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface BookingService {
-    User saveUser(User user);
-    User getUserWithEmail(String email);
-    List<Reservation> getAllFailedBookings();
+    void saveUser(User user);
+    Mono<User> getUserWithEmail(String email);
+    Flux<Reservation> getAllFailedBookings();
+
+    Mono<User> getUserById(Long id);
 }

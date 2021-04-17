@@ -8,29 +8,35 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+//@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BookingServiceImpl implements BookingService {
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private ReservationRepository reservationRepository;
 
     @Override
     @Transactional
-    public User saveUser(User user) {
-        return null;
+    public void saveUser(User user) {
+
     }
 
     @Override
-    public User getUserWithEmail(String email) {
-//        return userRepository.findByEmail(email);
-        return null;
+    public Mono<User> getUserWithEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
-    public List<Reservation> getAllFailedBookings() {
-        return null;
+    public Flux<Reservation> getAllFailedBookings() {
+        return reservationRepository.findAllBySuccessful(false);
+    }
+
+    @Override
+    public Mono<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 }

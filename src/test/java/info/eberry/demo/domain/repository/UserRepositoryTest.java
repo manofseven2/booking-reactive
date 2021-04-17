@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -30,8 +31,11 @@ public class UserRepositoryTest {
     }
     @Test
     public void findByEmailExistEmail(){
+        User user = new User(1L, "Amir", "Azimi", "amir.azimi.alasti@gmail.com");
         Mono<User> userFlux = userRepository.findByEmail("amir.azimi.alasti@gmail.com");
-        userFlux.doOnNext(user -> assertNotNull(user));
+        StepVerifier.create(userFlux.log("Receiving values !!!"))
+                .expectNext(user)
+                .verifyComplete();
     }
     @Test
     public void insertTest(){
@@ -57,7 +61,6 @@ public class UserRepositoryTest {
         allFlux.doOnNext(user -> {
             users.add(user);
             log.info(user.toString());
-//            System.out.println(user.toString());
         }).blockLast(Duration.ofSeconds(10));
     }
 }
