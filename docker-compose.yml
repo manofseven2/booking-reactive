@@ -1,0 +1,6 @@
+version: '3'
+services:
+  portal:
+    image: booking-reactive:latest
+    ports:
+      - 8081:8081

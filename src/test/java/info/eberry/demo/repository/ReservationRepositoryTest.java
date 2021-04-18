@@ -55,7 +55,7 @@ public class ReservationRepositoryTest {
         StepVerifier.create(allFailedReservations)
                 .recordWith(ArrayList::new)
                 .thenConsumeWhile(x -> true)
-                .expectRecordedMatches(elements -> elements.size() >= 2)
+                .expectRecordedMatches(elements -> elements.size() >= 1)
                 .verifyComplete();
     }
 

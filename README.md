@@ -18,3 +18,22 @@ Martin,Belak,martin.belak@gmail.com,300,TR0003
 - The application should return all of failed transactions
 - webFlux and R2DBC are used
 - H2 database is used
+
+**How to build**
+This project is a maven based project and you can use the below command to build it:
+
+`mvn clean install`
+
+**Deployment**
+You can create a docker file with this command:
+
+`docker build -t booking-reactive:latest .`
+
+**Running with docker composer**
+This command is used to run with docker composer
+
+`docker-compose up -d`
+
+to stop running docker container:
+
+`docker-compose down`
