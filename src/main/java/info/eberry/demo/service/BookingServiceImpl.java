@@ -52,7 +52,6 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public Flux<Reservation> saveReservation(ReservationDto dto) {
-//        User user  = userRepository.findByEmail(dto.getEmail()).block();
         Mono<User> userMono = userRepository.findByEmail(dto.getEmail());
         Flux<Reservation> reservationFlux = userMono.repeat(0).flatMap(p -> Flux.zip(reservationRepository.sumAllSuccessfulCosts(p.getId()).defaultIfEmpty(0L),
                 limitRepository.findByUserId(p.getId()),
@@ -70,75 +69,6 @@ public class BookingServiceImpl implements BookingService {
                     return reservation;
                 }));
         return reservationFlux.flatMap(r -> reservationRepository.save(r));
-        //return null;
-
-//        Mono<Flux<Mono<Reservation>>> map = userMono.map(p -> Flux.zip(reservationRepository.sumAllSuccessfulCosts(p.getId()).defaultIfEmpty(0L),
-//                limitRepository.findByUserId(p.getId()),
-//                (s, l) -> {
-//                    Reservation reservation = new Reservation();
-//                    reservation.setCost(dto.getCost());
-//                    reservation.setTransactionNumber(dto.getTransactionNumber());
-//                    reservation.setUserId(p.getId());
-//                    if (s + dto.getCost() > l.getAmount()) {
-//                        reservation.setSuccessful(false);
-//                    } else {
-//                        reservation.setSuccessful(true);
-//                    }
-//                    return reservationRepository.save(reservation);
-//                    //return reservation;
-//                }));
-//        return null;
-
-/*        userMono.flatMap(p -> {
-            return Flux.zip(reservationRepository.sumAllSuccessfulCosts(p.getId()).defaultIfEmpty(0L),
-                    limitRepository.findByUserId(p.getId()),
-                    (s, l) -> {
-                        Reservation reservation = new Reservation();
-                        reservation.setCost(dto.getCost());
-                        reservation.setTransactionNumber(dto.getTransactionNumber());
-                        reservation.setUserId(p.getId());
-                        if (s + dto.getCost() > l.getAmount()) {
-                            reservation.setSuccessful(false);
-                        } else {
-                            reservation.setSuccessful(true);
-                        }
-                        return reservation;
-                    });
-        });*/
-
-/*
-        Mono<InitialCreditLimit> limit = limitRepository.findByUserId(user.getId()).subscribeOn(Schedulers.elastic());
-        Mono<Long> sum = reservationRepository.sumAllSuccessfulCosts(user.getId()).defaultIfEmpty(0L).subscribeOn(Schedulers.elastic());
-
-        BiFunction<Long, InitialCreditLimit, Reservation> sumAndLimitToReservation = (s, l) ->{
-            Reservation reservation = new Reservation();
-            reservation.setCost(dto.getCost());
-            reservation.setTransactionNumber(dto.getTransactionNumber());
-            reservation.setUserId(user.getId());
-            if(s+dto.getCost() > l.getAmount()){
-                reservation.setSuccessful(false);
-            }else {
-                reservation.setSuccessful(true);
-            }
-            return reservation;
-        };
-        Reservation newReservation = Mono.zip(sum, limit, sumAndLimitToReservation).block();
-        return reservationRepository.save(newReservation);
-*/
-
-      /*  Mono<User> user = userRepository.findByEmail(dto.getEmail());
-
-
-
-
-        userRepository.findByEmail(dto.getEmail()).doOnNext(u -> {
-            limitRepository.findByUserId(u.getId()).doOnNext(limit -> {
-                reservationRepository.sumAllSuccessfulCosts(u.getId()).doOnNext(sum -> {
-
-                    reservationRepository.save(reservation);
-                }).subscribe();
-            }).subscribe();
-        }).subscribe();*/
     }
 
     private BiFunction<User, Reservation, FailedTransactionDto> userReservationDTOBiFunction = (x1, x2) -> FailedTransactionDto.builder()
