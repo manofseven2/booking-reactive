@@ -1,12 +1,11 @@
-package info.eberry.demo.domain.controller;
+package info.eberry.demo.controller;
 
-import info.eberry.demo.domain.exception.DemoException;
+import info.eberry.demo.exception.DemoException;
 import info.eberry.demo.domain.model.Reservation;
 import info.eberry.demo.domain.model.User;
-import info.eberry.demo.domain.model.dto.FailedTransactionDto;
-import info.eberry.demo.domain.model.dto.ReservationDto;
-import info.eberry.demo.domain.model.dto.ResponseContainerDto;
-import info.eberry.demo.domain.service.BookingService;
+import info.eberry.demo.domain.dto.FailedTransactionDto;
+import info.eberry.demo.domain.dto.ReservationDto;
+import info.eberry.demo.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +19,6 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-    @GetMapping("/id/{id}")
-    public Mono<User> getUserById(@PathVariable("id")Long id){
-        return bookingService.getUserById(id);
-    }
     @GetMapping("{email}")
     public Mono<User> getBookingByEmail(@PathVariable("email") String email){
         return bookingService.getUserWithEmail(email);
@@ -40,7 +35,7 @@ public class BookingController {
     }
 
     @PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
-    public Mono<Reservation> save(@RequestBody String req){
+    public Flux<Reservation> save(@RequestBody String req){
         if(req == null || req.isEmpty())
             throw new DemoException();
         String[] parts = req.split(",");

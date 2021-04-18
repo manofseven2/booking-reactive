@@ -1,7 +1,7 @@
-package info.eberry.demo.domain.repository;
+package info.eberry.demo.repository;
 
 import info.eberry.demo.domain.model.Reservation;
-import info.eberry.demo.domain.model.dto.FailedTransactionDto;
+import info.eberry.demo.domain.dto.FailedTransactionDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -19,46 +22,57 @@ public class ReservationRepositoryTest {
     private ReservationRepository reservationRepository;
 
     @Test
-    public void getAllFailedReservations(){
+    public void getAllFailedReservations() {
         Flux<Reservation> allFailedReservations = reservationRepository.findAllBySuccessful(false);
 
-        StepVerifier.create(allFailedReservations.log("Receiving values !!!"))
-                .expectNextCount(2)
+//flux has at least one element
+        StepVerifier.create(allFailedReservations)
+                .recordWith(ArrayList::new)
+                .thenConsumeWhile(x -> true)
+                .expectRecordedMatches(elements -> elements.size() >= 2)
                 .verifyComplete();
 
     }
+
     @Test
-    public void getAllFailedReservationsDtos(){
+    public void getAllFailedReservationsDtos() {
         Flux<FailedTransactionDto> allFailedReservations = reservationRepository.findAllFailedReservations();
 
-        StepVerifier.create(allFailedReservations.log("Receiving values !!!"))
-                .expectNextCount(2)
+        //flux has at least one element
+        StepVerifier.create(allFailedReservations)
+                .recordWith(ArrayList::new)
+                .thenConsumeWhile(x -> true)
+                .expectRecordedMatches(elements -> elements.size() >= 2)
                 .verifyComplete();
 
     }
+
     @Test
-    public void getAllSuccessfulReservations(){
+    public void getAllSuccessfulReservations() {
         Flux<Reservation> allFailedReservations = reservationRepository.findAllBySuccessful(true);
 
-        StepVerifier.create(allFailedReservations.log("Receiving values !!!"))
-                .expectNextCount(1)
+        //flux has at least two element
+        StepVerifier.create(allFailedReservations)
+                .recordWith(ArrayList::new)
+                .thenConsumeWhile(x -> true)
+                .expectRecordedMatches(elements -> elements.size() >= 2)
                 .verifyComplete();
-
     }
 
     @Test
-    public void sumAllSuccessfulCosts(){
+    public void sumAllSuccessfulCosts() {
         Mono<Long> costs = reservationRepository.sumAllSuccessfulCosts(3L);
         costs.doOnNext(sum -> {
-            log.info(sum+"");
+            log.info(sum + "");
             assertEquals(sum, 200);
         }).subscribe();
 
     }
+
     @Test
-    public void sumAllSuccessfulCostsIncorrect(){
+    public void sumAllSuccessfulCostsIncorrect() {
         Mono<Long> costs = reservationRepository.sumAllSuccessfulCosts(3000L);
         StepVerifier.create(costs.log("Receiving values !!!"))
-        .expectNextCount(0).verifyComplete();
+                .expectNextCount(0).verifyComplete();
     }
 }

@@ -1,4 +1,4 @@
-package info.eberry.demo.domain.repository;
+package info.eberry.demo.repository;
 
 import info.eberry.demo.domain.model.User;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;

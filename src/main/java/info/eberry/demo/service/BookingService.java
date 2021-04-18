@@ -1,9 +1,9 @@
-package info.eberry.demo.domain.service;
+package info.eberry.demo.service;
 
 import info.eberry.demo.domain.model.Reservation;
 import info.eberry.demo.domain.model.User;
-import info.eberry.demo.domain.model.dto.FailedTransactionDto;
-import info.eberry.demo.domain.model.dto.ReservationDto;
+import info.eberry.demo.domain.dto.FailedTransactionDto;
+import info.eberry.demo.domain.dto.ReservationDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -12,8 +12,5 @@ public interface BookingService {
     Mono<User> getUserWithEmail(String email);
     Flux<Reservation> getAllFailedBookings();
     Flux<FailedTransactionDto> getAllFailedBookingsDtos();
-
-    Mono<User> getUserById(Long id);
-
-    Mono<Reservation> saveReservation(ReservationDto dto);
+    Flux<Reservation> saveReservation(ReservationDto dto);
 }

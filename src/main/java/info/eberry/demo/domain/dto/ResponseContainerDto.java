@@ -1,4 +1,4 @@
-package info.eberry.demo.domain.model.dto;
+package info.eberry.demo.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

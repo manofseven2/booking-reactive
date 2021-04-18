@@ -1,7 +1,7 @@
-package info.eberry.demo.domain.repository;
+package info.eberry.demo.repository;
 
 import info.eberry.demo.domain.model.Reservation;
-import info.eberry.demo.domain.model.dto.FailedTransactionDto;
+import info.eberry.demo.domain.dto.FailedTransactionDto;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;

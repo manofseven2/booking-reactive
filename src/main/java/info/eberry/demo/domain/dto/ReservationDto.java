@@ -1,4 +1,4 @@
-package info.eberry.demo.domain.model.dto;
+package info.eberry.demo.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
