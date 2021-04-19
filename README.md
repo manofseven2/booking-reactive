@@ -8,6 +8,8 @@ To make a successful booking transaction, the user needs to have enough balance 
 **Sample Input**
 
 Amir,Azimi,amir.azimi.alasti@gmail.com,120,TR0005
+
+
 Martin,Belak,martin.belak@gmail.com,300,TR0003
 
 **Assumptions**
@@ -40,3 +42,12 @@ This command is used to run with docker composer
 to stop running docker container:
 
 `docker-compose down`
+
+
+`Endpoints`
+--------------------------------------------
+`/resources/bookings/failed/dtos`   |  `GET`   | list of all failed transactions
+--------------------------------------------
+`/resources/bookings`  | `POST`  |   save a transaction 
+`content-type: text/plain`
+--------------------------------------------
